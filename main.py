@@ -182,10 +182,10 @@ def get_bnb_config(quantization: bool=False) -> BitsAndBytesConfig:
 
 
 def perplexity(
-    model, tokenizer, data, max_length=2048,
+    model, tokenizer, data, max_length=2048, strategy=None,
 ):
     data_size = len(data)
-    instructions = [get_prompt(x["instruction"]) for x in data]
+    instructions = [get_prompt(x["instruction"], strategy=strategy) for x in data]
     outputs = [x["output"] for x in data]
 
     # Tokenize data
@@ -291,7 +291,6 @@ def main():
             task_type="CAUSAL_LM",
         )
         model = get_peft_model(model, peft_config)
-        model.print_trainable_parameters()
     
     model.to("cuda")
 
@@ -363,7 +362,7 @@ def main():
 
             if args.valid_file:
                 model.eval()  
-                valid_result = perplexity(model, tokenizer, data["valid"])
+                valid_result = perplexity(model, tokenizer, data["valid"], max_length=args.max_length)
                 print(f"Valid ppl: {valid_result['mean_perplexity']}, loss: {valid_result['loss']}")
                 history["ppl"].append(valid_result['mean_perplexity'])
                 history["loss"].append(valid_result['loss'])
@@ -383,8 +382,13 @@ def main():
             learning_curves(history, args.output_dir)
             print(f"\nThe final model has been saved to {args.output_dir}")
 
-    if args.test_file:
+    if args.valid_file:
+        model.eval()
+        valid_data = json.load(open(args.valid_file, "r", encoding="utf-8"))
+        valid_result = perplexity(model, tokenizer, valid_data, max_length=args.max_length, strategy=args.strategy)
+        print(f"Valid ppl: {valid_result['mean_perplexity']}, loss: {valid_result['loss']}")
 
+    if args.test_file:
         test_data = json.load(open(args.test_file, "r", encoding="utf-8"))
         instructions = [get_prompt(x["instruction"], strategy=args.strategy) for x in test_data]
         model.eval()

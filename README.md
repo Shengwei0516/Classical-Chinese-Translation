@@ -55,6 +55,20 @@ python main.py \
   --target_modules q_proj v_proj \
   --output_dir ./Taiwan-LLM-7B-v2.0-chat-LoRA
 ```
+### Zero-Shot
+```bash
+python main.py \
+  --model_name_or_path ./Taiwan-LLM-7B-v2.0-chat \
+  --valid_file ./hw3/data/public_test.json \
+  --strategy Zero-Shot
+```
+### Few-Shot (In-context Learning)
+```bash
+python main.py \
+  --model_name_or_path ./Taiwan-LLM-7B-v2.0-chat \
+  --valid_file ./hw3/data/public_test.json \
+  --strategy Few-Shot
+```
 
 ## Example
 To provide a quick start, here's an example of how to generate  Translation using the provided code:
