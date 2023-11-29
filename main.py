@@ -406,9 +406,8 @@ def main():
                     generated_tokens = generated_tokens[0]
                 decoded_input = tokenizer.batch_decode(input_ids, skip_special_tokens=True)
                 decoded_preds = tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
-                decoded_input = [inp.strip() for inp in decoded_input]
-                decoded_preds = [pred.strip() for pred in decoded_preds]
-                predictions += [decoded_preds[0][len(decoded_input[0]):]]
+                decoded_preds = [decoded_preds[i][len(decoded_input[i]):].strip() for i in range(len(decoded_preds))]
+                predictions += decoded_preds
         outputs = [
             {"id": i["id"], "output": p} for i, p in zip(test_data, predictions)
         ]
