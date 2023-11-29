@@ -27,9 +27,9 @@ The primary objective of this project is to perform Classical Chinese translatio
 3. Train, Predict, and Plot figures:
 ```bash
 python main.py \
-  --train_file ./hw3/data/train.json \
-  --valid_file ./hw3/data/public_test.json \
-  --test_file ./hw3/data/private_test.json \
+  --train_file ./data/train.json \
+  --valid_file ./data/public_test.json \
+  --test_file ./data/private_test.json \
   --model_name_or_path ./Taiwan-LLM-7B-v2.0-chat \
   --epochs 2 \
   --max_length 2048 \
@@ -44,7 +44,7 @@ python main.py \
 ### Only Train
 ```bash
 python main.py \
-  --train_file ./hw3/data/train.json \
+  --train_file ./data/train.json \
   --model_name_or_path ./Taiwan-LLM-7B-v2.0-chat \
   --epochs 2 \
   --max_length 2048 \
@@ -59,14 +59,14 @@ python main.py \
 ```bash
 python main.py \
   --model_name_or_path ./Taiwan-LLM-7B-v2.0-chat \
-  --valid_file ./hw3/data/public_test.json \
+  --valid_file ./data/public_test.json \
   --strategy Zero-Shot
 ```
 ### Few-Shot (In-context Learning)
 ```bash
 python main.py \
   --model_name_or_path ./Taiwan-LLM-7B-v2.0-chat \
-  --valid_file ./hw3/data/public_test.json \
+  --valid_file ./data/public_test.json \
   --strategy Few-Shot
 ```
 
@@ -76,11 +76,18 @@ To provide a quick start, here's an example of how to generate  Translation usin
 python main.py \
   --model_name_or_path ./Taiwan-LLM-7B-v2.0-chat \
   --peft_path ./Taiwan-LLM-7B-v2.0-chat-LoRA \
-  --test_file ./hw3/data/private_test.json \
+  --test_file ./data/private_test.json \
+  --prediction_path ./prediction.json
+```
+### Quantization
+```bash
+python main.py \
+  --model_name_or_path ./Taiwan-LLM-7B-v2.0-chat \
+  --peft_path ./Taiwan-LLM-7B-v2.0-chat-LoRA \
+  --test_file ./data/private_test.json \
   --prediction_path ./prediction.json \
   --quantization
 ```
-
 Feel free to explore, contribute, and embark on the journey of unraveling the linguistic wonders of Classical Chinese through the lens of deep learning. Happy translating!
 ## Acknowledgments
 
@@ -91,6 +98,6 @@ This project is made possible through the collaborative efforts of students and 
 For more information, feel free to contact the project maintainers:
 
 - **Name:** Shengwei Peng
-- **Email:** m11151033@gapps.ntust.edu.tw
+- **Email:** m11151033@mail.ntust.edu.tw
 
 Thank you for your interest in the Classical Chinese Translation project!
